@@ -7,7 +7,19 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import Post from './Post';
+import TextField from '@material-ui/core/TextField';
+import Input from '@material-ui/core/Input';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import FilledInput from '@material-ui/core/FilledInput';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Navbar from './components/Navbar';
+import Post from './components/Post';
+import NewPost from './components/NewPost';
+import SelectControls from './components/SelectControls';
 
 const styles = {
   root: {
@@ -32,19 +44,11 @@ function ButtonAppBar(props) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" color="inherit" className={classes.grow}>
-            Readable
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
-      <main className={classes.content}>
-        <Post />
+      <Navbar title="Readable" />
+      <NewPost />
+      {/* <PostDetail /> */}
+      {/* <main className={classes.content}>
+        <SelectControls />
         <br />
         <Post />
         <br />
@@ -55,7 +59,7 @@ function ButtonAppBar(props) {
         <Post />
         <br />
         <Post />
-      </main>
+      </main> */}
     </div>
   );
 }
