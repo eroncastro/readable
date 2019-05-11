@@ -20,8 +20,10 @@ import Navbar from './components/Navbar';
 import Post from './components/Post';
 import NewPost from './components/NewPost';
 import SelectControls from './components/SelectControls';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1,
   },
@@ -36,8 +38,13 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
-  }
-};
+  },
+  fab: {
+    position: 'fixed',
+    bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 2,
+  },
+});
 
 function ButtonAppBar(props) {
   const { classes } = props;
@@ -45,9 +52,9 @@ function ButtonAppBar(props) {
   return (
     <div className={classes.root}>
       <Navbar title="Readable" />
-      <NewPost />
+      {/* <NewPost /> */}
       {/* <PostDetail /> */}
-      {/* <main className={classes.content}>
+      <main className={classes.content}>
         <SelectControls />
         <br />
         <Post />
@@ -59,7 +66,10 @@ function ButtonAppBar(props) {
         <Post />
         <br />
         <Post />
-      </main> */}
+        <Fab color="primary" aria-label="Add" className={classes.fab}>
+          <AddIcon />
+        </Fab>
+      </main>
     </div>
   );
 }
