@@ -3,6 +3,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Post from './Post';
 import SelectControls from './SelectControls';
@@ -21,12 +22,11 @@ const styles = theme => ({
 });
 
 function PostsList(props) {
-  const { classes, posts } = props;
-
+  const { classes } = props;
   return (
     <main className={classes.content}>
       <SelectControls />
-      {Array(10).fill(1).map((post, key) => <Post key={key} />)}
+      {props.posts.map((post, key) => <Post key={key} {...post} />)}
       <Link to="/posts/new">
         <Fab color="primary" aria-label="Add" className={classes.fab}>
           <AddIcon />
@@ -36,4 +36,10 @@ function PostsList(props) {
   );
 };
 
-export default withStyles(styles)(PostsList);
+const mapStateToProps = state => {
+  return {
+    posts: state.posts
+  };
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(PostsList));
