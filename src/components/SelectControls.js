@@ -5,6 +5,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
 
 const styles = {
   selectControlsContainer: {
@@ -20,17 +21,20 @@ const styles = {
 // Refactor component using propTypes
 function SelectControls(props) {
   const { classes } = props;
+
   return (
     <div className={classes.selectControlsContainer}>
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="category">Category</InputLabel>
-        <Select input={<Input name="category" id="category" />}>
+        <Select input={<Input name="category" id="category" />} value="">
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
           {
-            (props.categories || []).map(category => (
-              <MenuItem value={category}>{category}</MenuItem>
+            props.categories.map((category, index) => (
+              <MenuItem value={category.name} key={index}>
+                {category.name}
+              </MenuItem>
             ))
           }
         </Select>
@@ -38,19 +42,26 @@ function SelectControls(props) {
 
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="order-by">Order by</InputLabel>
-        <Select input={<Input name="order-by" id="order-by" />} >
+        <Select input={<Input name="order-by" id="order-by" />} value="">
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          {
-            (props.orderBy || []).map(orderBy => (
-              <MenuItem value={orderBy}>{orderBy}</MenuItem>
-            ))
-          }
+          <MenuItem value="timestamp">
+            Timestamp
+          </MenuItem>
+          <MenuItem value="votescore">
+            Vote Score
+          </MenuItem>
         </Select>
       </FormControl>
     </div>
   );
 };
 
-export default withStyles(styles)(SelectControls);
+const mapStateToProps = state => {
+  return {
+    categories: state.categories
+  };
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(SelectControls));
