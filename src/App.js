@@ -1,19 +1,39 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Navbar from './components/Navbar';
 import NewPost from './components/NewPost';
 import PostsList from './components/PostsList';
+import { handleInitialData } from './actions/shared';
 
-function App(props) {
-  return (
-    <Router>
-      <Navbar title="Readable" />
+class App extends React.Component {
+  componentDidMount() {
+    this.props.handleInitialData();
+  }
 
-      <Route path="/" exact component={PostsList} />
-      <Route path="/posts/new" exact component={NewPost} />
-    </Router>
-  );
+  render() {
+    if (this.props.loading) {
+      return <h2>Loading...</h2>;
+    }
+
+    return (
+      <Router>
+        <Navbar title="Readable" />
+
+        <Route path="/" exact component={PostsList} />
+        <Route path="/posts/new" exact component={NewPost} />
+      </Router>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    loading: state.loading
+  };
+};
+
+const mapDispatchToProps = { handleInitialData };
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
