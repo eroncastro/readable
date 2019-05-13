@@ -8,7 +8,7 @@ export function handleInitialData() {
   const getCategories = () => {
     return fetch('http://localhost:3001/categories')
       .then(response => response.json())
-      .then(({ categories }) => categories);
+      .then(({ categories }) => categories)
   }
 
   const getPosts = () => {

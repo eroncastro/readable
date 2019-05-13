@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -65,10 +64,7 @@ class Post extends React.Component {
           <IconButton aria-label="Vote down">
             <Icon>thumb_down</Icon>
           </IconButton>
-          <IconButton aria-label="Vote down">
-            <Icon>score</Icon>
-          </IconButton>
-          {this.props.voteScore}
+          <span>{this.props.voteScore}</span>
           <IconButton aria-label="Comments">
             <Icon>comment</Icon>
           </IconButton>
@@ -78,9 +74,5 @@ class Post extends React.Component {
     );
   }
 }
-
-Post.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(Post);

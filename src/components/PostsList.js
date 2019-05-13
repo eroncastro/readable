@@ -23,6 +23,7 @@ const styles = theme => ({
 
 function PostsList(props) {
   const { classes } = props;
+
   return (
     <main className={classes.content}>
       <SelectControls />
