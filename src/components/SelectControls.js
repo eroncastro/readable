@@ -6,6 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const styles = {
   selectControlsContainer: {
@@ -18,23 +19,31 @@ const styles = {
   }
 };
 
-// Refactor component using propTypes
 function SelectControls(props) {
   const { classes } = props;
 
   return (
     <div className={classes.selectControlsContainer}>
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="category">Category</InputLabel>
-        <Select input={<Input name="category" id="category" />} value="">
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
+        <InputLabel htmlFor="post-category">Category</InputLabel>
+        <Select
+          input={<Input name="category" id="post-category" />}
+          value={props.selectedCategory ? props.selectedCategory : ''}>
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+          </Link>
           {
             props.categories.map((category, index) => (
-              <MenuItem value={category.name} key={index}>
-                {category.name}
-              </MenuItem>
+              <Link
+                to={`/posts/${category.name}`}
+                style={{ textDecoration: 'none' }}
+                key={index}>
+                <MenuItem value={category.name} >
+                  {category.name}
+                </MenuItem>
+              </Link>
             ))
           }
         </Select>

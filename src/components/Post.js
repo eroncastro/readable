@@ -10,6 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import Icon from '@material-ui/core/Icon';
 
+import { handleUpvotePost, handleDownvotePost } from '../actions/posts';
+import { connect } from 'react-redux';
+
 const styles = theme => ({
   card: {
     width: 500,
@@ -58,10 +61,14 @@ class Post extends React.Component {
           </Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
-          <IconButton aria-label="Vote up">
+          <IconButton
+            aria-label="Vote up"
+            onClick={() =>this.props.handleUpvotePost(this.props.id)}>
             <Icon>thumb_up</Icon>
           </IconButton>
-          <IconButton aria-label="Vote down">
+          <IconButton
+            aria-label="Vote down"
+            onClick={() => this.props.handleDownvotePost(this.props.id)}>
             <Icon>thumb_down</Icon>
           </IconButton>
           <span>{this.props.voteScore}</span>
@@ -75,4 +82,6 @@ class Post extends React.Component {
   }
 }
 
-export default withStyles(styles)(Post);
+const mapActionsToProps = { handleUpvotePost, handleDownvotePost };
+
+export default connect(null, mapActionsToProps)(withStyles(styles)(Post));

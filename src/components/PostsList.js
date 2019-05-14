@@ -21,20 +21,32 @@ const styles = theme => ({
   }
 });
 
-function PostsList(props) {
-  const { classes } = props;
+class PostsList extends React.Component {
+  posts() {
+    const { categoryId } = this.props.match.params;
 
-  return (
-    <main className={classes.content}>
-      <SelectControls />
-      {props.posts.map((post, key) => <Post key={key} {...post} />)}
-      <Link to="/posts/new">
-        <Fab color="primary" aria-label="Add" className={classes.fab}>
-          <AddIcon />
-        </Fab>
-      </Link>
-    </main>
-  );
+    return categoryId
+      ? this.props.posts.filter(post => post.category === categoryId)
+      : this.props.posts;
+  }
+
+  render() {
+    const { classes } = this.props;
+
+    return (
+      <main className={classes.content}>
+        <SelectControls
+          selectedCategory={this.props.match.params.categoryId}
+        />
+        {this.posts().map((post, key) => <Post key={key} {...post} />)}
+        <Link to="/posts/new">
+          <Fab color="primary" aria-label="Add" className={classes.fab}>
+            <AddIcon />
+          </Fab>
+        </Link>
+      </main>
+    );
+  }
 };
 
 const mapStateToProps = state => {
