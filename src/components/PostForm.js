@@ -8,6 +8,7 @@ import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { handleAddPost } from '../actions/posts';
 
@@ -46,7 +47,7 @@ const initialState = Object.freeze({
   content: ''
 });
 
-class NewPost extends React.Component {
+class PostForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -73,6 +74,7 @@ class NewPost extends React.Component {
     return (
       <div className={classes.container}>
         <h2>New Post</h2>
+
         <form className={classes.inputs} noValidate autoComplete="off">
           <TextField
             id="post-author"
@@ -123,6 +125,11 @@ class NewPost extends React.Component {
           />
 
           <div>
+            <Button variant="contained" className={classes.button}>
+              <Link to="/" style={{ textDecoration: 'none' }}>
+                Go back
+              </Link>
+            </Button>
             <Button
               variant="contained"
               className={classes.button}
@@ -146,4 +153,4 @@ const mapDispatchToProps = { handleAddPost };
 
 export default connect(
   mapStateToProps, mapDispatchToProps
-)(withStyles(styles)(NewPost));
+)(withStyles(styles)(PostForm));
