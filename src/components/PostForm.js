@@ -123,12 +123,14 @@ class PostForm extends React.Component {
             value={this.state.content}
             onChange={e => this.setState({ content: e.target.value })}
           />
-
           <div>
-            <Button variant="contained" className={classes.button}>
-              <Link to="/" style={{ textDecoration: 'none' }}>
-                Go back
-              </Link>
+            <Button
+              variant="contained"
+              className={classes.button}
+              style={{ textDecoration: 'none' }}
+              component={Link}
+              to="/">
+              Go back
             </Button>
             <Button
               variant="contained"
