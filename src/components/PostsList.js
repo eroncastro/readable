@@ -22,12 +22,31 @@ const styles = theme => ({
 });
 
 class PostsList extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      orderBy: 'timestamp'
+    };
+
+    this.posts = this.posts.bind(this);
+    this._sort = this._sort.bind(this);
+  }
+
   posts() {
     const { categoryId } = this.props.match.params;
 
-    return categoryId
+    const posts = categoryId
       ? this.props.posts.filter(post => post.category === categoryId)
       : this.props.posts;
+
+    return posts.sort(this._sort);
+  }
+
+  _sort(a, b) {
+    if (a[this.state.orderBy] > b[this.state.orderBy]) return -1;
+
+    return a[this.state.orderBy] < b[this.state.orderBy] ? 1 : 0;
   }
 
   render() {
@@ -37,6 +56,7 @@ class PostsList extends React.Component {
       <main className={classes.content}>
         <SelectControls
           selectedCategory={this.props.match.params.categoryId}
+          onOrderChange={orderBy => this.setState({ orderBy })}
         />
         {this.posts().map((post, key) => <Post key={key} {...post} />)}
         <Link to="/posts/new">

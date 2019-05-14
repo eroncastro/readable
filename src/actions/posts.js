@@ -2,6 +2,9 @@ export const ADD_POST = 'ADD_POST';
 export const UPVOTE_POST = 'UPVOTE_POST';
 export const DOWNVOTE_POST = 'DOWNVOTE_POST';
 
+const UPVOTE_OPTION = 'upVote';
+const DOWNVOTE_OPTION = 'downVote';
+
 function addPost(post) {
   return { type: ADD_POST, post };
 };
@@ -56,7 +59,7 @@ function handleVotePost(postId, option, action, fallbackAction) {
 export function handleUpvotePost(postId) {
   return handleVotePost(
     postId,
-    'upvote',
+    UPVOTE_OPTION,
     upvotePost(postId),
     downvotePost(postId)
   );
@@ -65,7 +68,7 @@ export function handleUpvotePost(postId) {
 export function handleDownvotePost(postId) {
   return handleVotePost(
     postId,
-    'downvote',
+    DOWNVOTE_OPTION,
     downvotePost(postId),
     upvotePost(postId)
   );
