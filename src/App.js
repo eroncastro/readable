@@ -1,9 +1,9 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Navbar from './components/Navbar';
-import NewPost from './components/NewPost';
+import PostForm from './components/PostForm';
 import PostsList from './components/PostsList';
 import { handleInitialData } from './actions/shared';
 
@@ -21,8 +21,11 @@ class App extends React.Component {
       <Router>
         <Navbar title="Readable" />
 
-        <Route path="/" exact component={PostsList} />
-        <Route path="/posts/new" exact component={NewPost} />
+        <Switch>
+          <Route path="/" exact component={PostsList} />
+          <Route path="/posts/new" exact component={PostForm} />
+          <Route path="/posts/:categoryId" exact component={PostsList} />
+        </Switch>
       </Router>
     );
   }
