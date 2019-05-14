@@ -48,22 +48,24 @@ class SelectControls extends React.Component {
           <InputLabel htmlFor="post-category">Category</InputLabel>
           <Select
             input={<Input name="category" id="post-category" />}
-            value={this.props.selectedCategory ? this.props.selectedCategory : ''}>
-            <Link to="/" style={{ textDecoration: 'none' }}>
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-            </Link>
+            value={this.props.selectedCategory ? this.props.selectedCategory : 'All'}>
+            <MenuItem
+              component={Link}
+              to="/"
+              value="All"
+              style={{ textDecoration: 'none' }}>
+              All
+            </MenuItem>
             {
               this.props.categories.map((category, index) => (
-                <Link
+                <MenuItem
+                  component={Link}
                   to={`/posts/${category.name}`}
-                  style={{ textDecoration: 'none' }}
-                  key={index}>
-                  <MenuItem value={category.name} >
-                    {category.name}
-                  </MenuItem>
-                </Link>
+                  value={category.name}
+                  key={index}
+                  style={{ textDecoration: 'none' }}>
+                  {category.name}
+                </MenuItem>
               ))
             }
           </Select>
