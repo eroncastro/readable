@@ -1,9 +1,12 @@
-export const ADD_POST = 'ADD_POST';
-export const UPVOTE_POST = 'UPVOTE_POST';
-export const DOWNVOTE_POST = 'DOWNVOTE_POST';
+import {
+  handleVote,
+  DOWNVOTE_OPTION,
+  UPVOTE_OPTION
+} from './shared';
 
-const UPVOTE_OPTION = 'upVote';
-const DOWNVOTE_OPTION = 'downVote';
+export const ADD_POST = 'ADD_POST';
+export const DOWNVOTE_POST = 'DOWNVOTE_POST';
+export const UPVOTE_POST = 'UPVOTE_POST';
 
 function addPost(post) {
   return { type: ADD_POST, post };
@@ -37,24 +40,8 @@ export function handleAddPost(post) {
 };
 
 function handleVotePost(postId, option, action, fallbackAction) {
-  return dispatch => {
-    dispatch(action);
-
-    return fetch(`http://localhost:3001/posts/${postId}`, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ option })
-    })
-    .catch(error => {
-      dispatch(fallbackAction);
-      console.log(error);
-      alert('Failed to vote. Please, try again.');
-    })
-  };
-}
+  return handleVote(`posts/${postId}`, option, action, fallbackAction)
+};
 
 export function handleUpvotePost(postId) {
   return handleVotePost(

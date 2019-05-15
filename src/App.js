@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Navbar from './components/Navbar';
+import PostDetail from './components/PostDetail';
 import PostForm from './components/PostForm';
 import PostsList from './components/PostsList';
 import { handleInitialData } from './actions/shared';
@@ -24,8 +25,8 @@ class App extends React.Component {
         <Switch>
           <Route path="/" exact component={PostsList} />
           <Route path="/posts/new" exact component={PostForm} />
+          <Route path="/posts/:postId" exact component={PostDetail} />
           <Route path="/posts/category/:categoryId" exact component={PostsList} />
-          <Route path="/posts/:postId" exact component={PostsList} />
         </Switch>
       </Router>
     );

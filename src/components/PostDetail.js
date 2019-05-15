@@ -5,8 +5,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import Comment from './Comment';
 import Post from './Post';
-import SelectControls from './SelectControls';
 
 const styles = theme => ({
   content: {
@@ -21,7 +21,7 @@ const styles = theme => ({
   }
 });
 
-class PostsList extends React.Component {
+class PostsDetail extends React.Component {
   constructor(props) {
     super(props);
 
@@ -54,19 +54,14 @@ class PostsList extends React.Component {
 
     return (
       <main className={classes.content}>
-        <SelectControls
-          selectedCategory={this.props.match.params.categoryId}
-          onOrderChange={orderBy => this.setState({ orderBy })}
-        />
-        {this.posts().map((post, key) => {
-          return (
-            <Post
-              key={key}
-              {...post}
-              comments={this.props.comments[post.id] ? this.props.comments[post.id] : 0}
-            />
-          );
+        <h2>Post</h2>
+        <Post {...this.props.post} comments={this.props.comments.length} />
+
+        <h3>Comments</h3>
+        {this.props.comments.map((comment, index) => {
+          return <Comment {...comment} key={index} />
         })}
+
         <Link to="/posts/new">
           <Fab color="primary" aria-label="Add" className={classes.fab}>
             <AddIcon />
@@ -77,14 +72,13 @@ class PostsList extends React.Component {
   }
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   return {
-    posts: state.posts,
-    comments: state.comments.reduce((prev, cur) => {
-      const inc = prev[cur.parentId] ? prev[cur.parentId] + 1 : 1;
-      return {...prev, ...{ [cur.parentId]: inc } };
-    }, {})
+    post: state.posts.find(post => post.id === props.match.params.postId),
+    comments: state.comments.filter(comment => {
+      return comment.parentId === props.match.params.postId;
+    })
   };
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(PostsList));
+export default connect(mapStateToProps)(withStyles(styles)(PostsDetail));
