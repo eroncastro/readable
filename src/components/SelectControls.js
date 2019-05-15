@@ -60,7 +60,7 @@ class SelectControls extends React.Component {
               this.props.categories.map((category, index) => (
                 <MenuItem
                   component={Link}
-                  to={`/posts/${category.name}`}
+                  to={`/posts/category/${category.name}`}
                   value={category.name}
                   key={index}
                   style={{ textDecoration: 'none' }}>
