@@ -1,10 +1,17 @@
 import { RECEIVE_DATA } from '../actions/shared';
-import { ADD_POST, DOWNVOTE_POST, UPVOTE_POST } from '../actions/posts';
+import {
+  ADD_POST,
+  DELETE_POST,
+  DOWNVOTE_POST,
+  UPVOTE_POST
+} from '../actions/posts';
 
 export default function(state = [], action) {
   switch(action.type) {
     case ADD_POST:
       return [...state, action.post];
+    case DELETE_POST:
+      return state.filter(post => post.id !== action.postId);
     case DOWNVOTE_POST:
       return state.reduce((prev, cur) => {
         const elem = cur.id === action.postId

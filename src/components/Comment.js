@@ -72,6 +72,20 @@ class Comment extends React.Component {
             <Icon>thumb_down</Icon>
           </IconButton>
           <span>{this.props.voteScore}</span>
+          {
+            this.props.showControls
+              ? (
+                  <React.Fragment>
+                    <IconButton aria-label="Edit">
+                      <Icon>edit</Icon>
+                    </IconButton>
+                    <IconButton aria-label="Delete">
+                      <Icon>delete</Icon>
+                    </IconButton>
+                  </React.Fragment>
+                )
+              : null
+          }
         </CardActions>
       </Card>
     );

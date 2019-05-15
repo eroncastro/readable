@@ -10,7 +10,11 @@ import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import Icon from '@material-ui/core/Icon';
 
-import { handleUpvotePost, handleDownvotePost } from '../actions/posts';
+import {
+  handleUpvotePost,
+  handleDownvotePost,
+  handleDeletePost
+} from '../actions/posts';
 import { connect } from 'react-redux';
 
 const styles = theme => ({
@@ -49,39 +53,59 @@ class Post extends React.Component {
         <CardHeader
           avatar={
             <Avatar aria-label="Recipe" className={classes.avatar}>
-              {this.props.author ? this.props.author.charAt(0).toUpperCase() : ''}
+              {this.props.post.author ? this.props.post.author.charAt(0).toUpperCase() : ''}
             </Avatar>
           }
-          title={this.props.title}
-          subheader={this.props.timestamp}
+          title={this.props.post.title}
+          subheader={this.props.post.timestamp}
         />
         <CardContent>
           <Typography component="p">
-            {this.props.body}
+            {this.props.post.body}
           </Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
           <IconButton
             aria-label="Vote up"
-            onClick={() =>this.props.handleUpvotePost(this.props.id)}>
+            onClick={() =>this.props.handleUpvotePost(this.props.post.id)}>
             <Icon>thumb_up</Icon>
           </IconButton>
           <IconButton
             aria-label="Vote down"
-            onClick={() => this.props.handleDownvotePost(this.props.id)}>
+            onClick={() => this.props.handleDownvotePost(this.props.post.id)}>
             <Icon>thumb_down</Icon>
           </IconButton>
-          <span>{this.props.voteScore}</span>
+          <span>{this.props.post.voteScore}</span>
           <IconButton aria-label="Comments">
             <Icon>comment</Icon>
           </IconButton>
-          {this.props.comments}
+          {this.props.post.comments}
+          {
+            this.props.showControls
+              ? (
+                  <React.Fragment>
+                    <IconButton aria-label="Edit">
+                      <Icon>edit</Icon>
+                    </IconButton>
+                    <IconButton
+                      aria-label="Delete"
+                      onClick={() => this.props.handleDeletePost(this.props.post)}>
+                      <Icon>delete</Icon>
+                    </IconButton>
+                  </React.Fragment>
+                )
+              : null
+          }
         </CardActions>
       </Card>
     );
   }
 }
 
-const mapActionsToProps = { handleUpvotePost, handleDownvotePost };
+const mapDispatchToProps = {
+  handleUpvotePost,
+  handleDownvotePost,
+  handleDeletePost
+};
 
-export default connect(null, mapActionsToProps)(withStyles(styles)(Post));
+export default connect(null, mapDispatchToProps)(withStyles(styles)(Post));

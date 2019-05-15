@@ -4,6 +4,7 @@ import Fab from '@material-ui/core/Fab';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import Comment from './Comment';
 import Post from './Post';
@@ -50,16 +51,24 @@ class PostsDetail extends React.Component {
   }
 
   render() {
+    if (!this.props.post) {
+      return <Redirect to="/" />;
+    }
+
     const { classes } = this.props;
 
     return (
       <main className={classes.content}>
         <h2>Post</h2>
-        <Post {...this.props.post} comments={this.props.comments.length} />
+        <Post
+          post={this.props.post}
+          comments={this.props.comments.length}
+          showControls={true}
+        />
 
         <h3>Comments</h3>
         {this.props.comments.map((comment, index) => {
-          return <Comment {...comment} key={index} />
+          return <Comment {...comment} key={index} showControls={true} />
         })}
 
         <Link to="/posts/new">

@@ -62,7 +62,7 @@ class PostsList extends React.Component {
           return (
             <Post
               key={key}
-              {...post}
+              post={post}
               comments={this.props.comments[post.id] ? this.props.comments[post.id] : 0}
             />
           );
