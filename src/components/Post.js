@@ -1,21 +1,24 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import Icon from '@material-ui/core/Icon';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import {
   handleUpvotePost,
   handleDownvotePost,
   handleDeletePost
 } from '../actions/posts';
-import { connect } from 'react-redux';
+import { formatDate } from '../utils/helpers';
 
 const styles = theme => ({
   card: {
@@ -45,11 +48,19 @@ const styles = theme => ({
 });
 
 class Post extends React.Component {
+  handleClick(event, action) {
+    event.preventDefault();
+    action();
+  }
+
   render() {
     const { classes } = this.props;
 
     return (
       <Card className={classes.card}>
+        <CardActionArea
+          component={Link}
+          to={`/posts/${this.props.post.id}`}>
         <CardHeader
           avatar={
             <Avatar aria-label="Recipe" className={classes.avatar}>
@@ -57,7 +68,7 @@ class Post extends React.Component {
             </Avatar>
           }
           title={this.props.post.title}
-          subheader={this.props.post.timestamp}
+          subheader={formatDate(this.props.post.timestamp)}
         />
         <CardContent>
           <Typography component="p">
@@ -67,7 +78,7 @@ class Post extends React.Component {
         <CardActions className={classes.actions} disableActionSpacing>
           <IconButton
             aria-label="Vote up"
-            onClick={() =>this.props.handleUpvotePost(this.props.post.id)}>
+            onClick={e => this.handleClick(e, () => this.props.handleUpvotePost(this.props.post.id))}>
             <Icon>thumb_up</Icon>
           </IconButton>
           <IconButton
@@ -79,7 +90,7 @@ class Post extends React.Component {
           <IconButton aria-label="Comments">
             <Icon>comment</Icon>
           </IconButton>
-          {this.props.post.comments}
+          <span>{this.props.comments ? this.props.comments : 0}</span>
           {
             this.props.showControls
               ? (
@@ -97,6 +108,7 @@ class Post extends React.Component {
               : null
           }
         </CardActions>
+        </CardActionArea>
       </Card>
     );
   }

@@ -9,9 +9,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import Icon from '@material-ui/core/Icon';
+import { connect } from 'react-redux';
 
 import { handleUpvoteComment, handleDownvoteComment } from '../actions/comments';
-import { connect } from 'react-redux';
+import { formatDate } from '../utils/helpers';
 
 const styles = theme => ({
   card: {
@@ -52,8 +53,8 @@ class Comment extends React.Component {
               {this.props.author ? this.props.author.charAt(0).toUpperCase() : ''}
             </Avatar>
           }
-          title={this.props.title}
-          subheader={this.props.timestamp}
+          title={this.props.author}
+          subheader={formatDate(this.props.timestamp)}
         />
         <CardContent>
           <Typography component="p">
