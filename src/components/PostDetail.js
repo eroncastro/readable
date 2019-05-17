@@ -71,7 +71,7 @@ class PostsDetail extends React.Component {
           return <Comment {...comment} key={index} showControls={true} />
         })}
 
-        <Link to="/posts/new">
+        <Link to={`/posts/${this.props.post.id}/comments/new`}>
           <Fab color="primary" aria-label="Add" className={classes.fab}>
             <AddIcon />
           </Fab>

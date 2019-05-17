@@ -60,55 +60,55 @@ class Post extends React.Component {
       <Card className={classes.card}>
         <CardActionArea
           component={Link}
-          to={`/posts/${this.props.post.id}`}>
-        <CardHeader
-          avatar={
-            <Avatar aria-label="Recipe" className={classes.avatar}>
-              {this.props.post.author ? this.props.post.author.charAt(0).toUpperCase() : ''}
-            </Avatar>
-          }
-          title={this.props.post.title}
-          subheader={formatDate(this.props.post.timestamp)}
-        />
-        <CardContent>
-          <Typography component="p">
-            {this.props.post.body}
-          </Typography>
-        </CardContent>
-        <CardActions className={classes.actions} disableActionSpacing>
-          <IconButton
-            aria-label="Vote up"
-            onClick={e => this.handleClick(e, () => this.props.handleUpvotePost(this.props.post.id))}>
-            <Icon>thumb_up</Icon>
-          </IconButton>
-          <IconButton
-            aria-label="Vote down"
-            onClick={() => this.props.handleDownvotePost(this.props.post.id)}>
-            <Icon>thumb_down</Icon>
-          </IconButton>
-          <span>{this.props.post.voteScore}</span>
-          <IconButton aria-label="Comments">
-            <Icon>comment</Icon>
-          </IconButton>
-          <span>{this.props.comments ? this.props.comments : 0}</span>
-          {
-            this.props.showControls
-              ? (
-                  <React.Fragment>
-                    <IconButton aria-label="Edit">
-                      <Icon>edit</Icon>
-                    </IconButton>
-                    <IconButton
-                      aria-label="Delete"
-                      onClick={() => this.props.handleDeletePost(this.props.post)}>
-                      <Icon>delete</Icon>
-                    </IconButton>
-                  </React.Fragment>
-                )
-              : null
-          }
-        </CardActions>
+          to={`/posts/${this.props.post.id}/comments`}>
+          <CardHeader
+            avatar={
+              <Avatar aria-label="Recipe" className={classes.avatar}>
+                {this.props.post.author ? this.props.post.author.charAt(0).toUpperCase() : ''}
+              </Avatar>
+            }
+            title={this.props.post.title}
+            subheader={formatDate(this.props.post.timestamp)}
+          />
+          <CardContent>
+            <Typography component="p">
+              {this.props.post.body}
+            </Typography>
+          </CardContent>
         </CardActionArea>
+          <CardActions className={classes.actions} disableActionSpacing>
+            <IconButton
+              aria-label="Vote up"
+              onClick={e => this.handleClick(e, () => this.props.handleUpvotePost(this.props.post.id))}>
+              <Icon>thumb_up</Icon>
+            </IconButton>
+            <IconButton
+              aria-label="Vote down"
+              onClick={() => this.props.handleDownvotePost(this.props.post.id)}>
+              <Icon>thumb_down</Icon>
+            </IconButton>
+            <span>{this.props.post.voteScore}</span>
+            <IconButton aria-label="Comments">
+              <Icon>comment</Icon>
+            </IconButton>
+            <span>{this.props.comments ? this.props.comments : 0}</span>
+            {
+              this.props.showControls
+                ? (
+                    <React.Fragment>
+                      <IconButton aria-label="Edit">
+                        <Icon>edit</Icon>
+                      </IconButton>
+                      <IconButton
+                        aria-label="Delete"
+                        onClick={() => this.props.handleDeletePost(this.props.post)}>
+                        <Icon>delete</Icon>
+                      </IconButton>
+                    </React.Fragment>
+                  )
+                : null
+            }
+          </CardActions>
       </Card>
     );
   }

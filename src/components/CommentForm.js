@@ -2,15 +2,10 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
-import { handleAddPost } from '../actions/posts';
+import { handleAddComment } from '../actions/comments';
 import { generateId } from '../utils/helpers';
 
 const styles = theme => ({
@@ -45,10 +40,11 @@ const initialState = Object.freeze({
   author: '',
   title: '',
   category: '',
-  content: ''
+  content: '',
+  redirect: false
 });
 
-class PostForm extends React.Component {
+class CommentForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -58,23 +54,28 @@ class PostForm extends React.Component {
   }
 
   handleSubmit() {
-    this.props.handleAddPost({
+    this.props.handleAddComment({
       id: generateId(),
       author: this.state.author,
-      title: this.state.title,
-      category: this.state.category,
       body: this.state.content,
+      parentId: this.props.match.params.postId,
       timestamp: Date.now()
     })
-    .then(() => this.setState(initialState));
+    .then(() => {
+      this.setState(Object.assign({}, initialState, { redirect: true }));
+    });
   }
 
   render() {
     const { classes } = this.props;
 
+    if (this.state.redirect) {
+      return <Redirect to={`/posts/${this.props.match.params.postId}/comments`} />
+    }
+
     return (
       <div className={classes.container}>
-        <h2>New Post</h2>
+        <h2>New Comment</h2>
 
         <form className={classes.inputs} noValidate autoComplete="off">
           <TextField
@@ -85,33 +86,6 @@ class PostForm extends React.Component {
             value={this.state.author}
             onChange={e => this.setState({ author: e.target.value })}
           />
-
-          <TextField
-            id="post-title"
-            label="Title"
-            className={classes.textField}
-            margin="normal"
-            value={this.state.title}
-            onChange={e => this.setState({ title: e.target.value })}
-          />
-
-          <FormControl className={classes.textField}>
-            <InputLabel htmlFor="category">Category</InputLabel>
-            <Select
-              input={<Input name="category" id="category" />}
-              value={this.state.category}
-              onChange={e => this.setState({ category: e.target.value })}
-              >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              {
-                this.props.categories.map((category, index) => (
-                  <MenuItem value={category.name} key={index}>{category.name}</MenuItem>
-                ))
-              }
-            </Select>
-          </FormControl>
 
           <TextField
             id="post-body"
@@ -130,7 +104,7 @@ class PostForm extends React.Component {
               className={classes.button}
               style={{ textDecoration: 'none' }}
               component={Link}
-              to="/">
+              to={`/posts/${this.props.match.params.postId}/comments`}>
               Go back
             </Button>
             <Button
@@ -146,14 +120,9 @@ class PostForm extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    categories: state.categories
-  };
-};
-
-const mapDispatchToProps = { handleAddPost };
+const mapDispatchToProps = { handleAddComment };
 
 export default connect(
-  mapStateToProps, mapDispatchToProps
-)(withStyles(styles)(PostForm));
+  null,
+  mapDispatchToProps
+)(withStyles(styles)(CommentForm));

@@ -11,19 +11,19 @@ export const UPVOTE_POST = 'UPVOTE_POST';
 
 function addPost(post) {
   return { type: ADD_POST, post };
-};
+}
 
 function deletePost(postId) {
   return { type: DELETE_POST, postId };
-};
+}
 
 function upvotePost(postId) {
   return { type: UPVOTE_POST, postId };
-};
+}
 
 function downvotePost(postId) {
   return { type: DOWNVOTE_POST, postId };
-};
+}
 
 export function handleAddPost(post) {
   return dispatch => {
@@ -62,7 +62,7 @@ export function handleDeletePost(post) {
 
 function handleVotePost(postId, option, action, fallbackAction) {
   return handleVote(`posts/${postId}`, option, action, fallbackAction)
-};
+}
 
 export function handleUpvotePost(postId) {
   return handleVotePost(

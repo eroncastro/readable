@@ -1,8 +1,14 @@
 import { RECEIVE_DATA } from '../actions/shared';
-import { DOWNVOTE_COMMENT, UPVOTE_COMMENT } from '../actions/comments';
+import {
+  ADD_COMMENT,
+  DOWNVOTE_COMMENT,
+  UPVOTE_COMMENT
+} from '../actions/comments';
 
 export default function(state = [], action) {
   switch(action.type) {
+    case ADD_COMMENT:
+      return [...state, action.comment];
     case DOWNVOTE_COMMENT:
       return state.reduce((prev, cur) => {
         const elem = cur.id === action.commentId
