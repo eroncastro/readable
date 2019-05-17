@@ -68,7 +68,7 @@ class PostsDetail extends React.Component {
 
         <h3>Comments</h3>
         {this.props.comments.map((comment, index) => {
-          return <Comment {...comment} key={index} showControls={true} />
+          return <Comment comment={comment} key={index} showControls={true} />
         })}
 
         <Link to={`/posts/${this.props.post.id}/comments/new`}>

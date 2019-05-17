@@ -26,6 +26,7 @@ class App extends React.Component {
         <Switch>
           <Route path="/" exact component={PostsList} />
           <Route path="/posts/new" exact component={PostForm} />
+          <Route path="/posts/:postId/edit" exact component={PostForm} />
           <Route path="/posts/:postId/comments" exact component={PostDetail} />
           <Route path="/posts/:postId/comments/new" exact component={CommentForm} />
           <Route path="/posts/category/:categoryId" exact component={PostsList} />

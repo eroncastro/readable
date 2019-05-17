@@ -11,7 +11,11 @@ import red from '@material-ui/core/colors/red';
 import Icon from '@material-ui/core/Icon';
 import { connect } from 'react-redux';
 
-import { handleUpvoteComment, handleDownvoteComment } from '../actions/comments';
+import {
+  handleDeleteComment,
+  handleUpvoteComment,
+  handleDownvoteComment
+} from '../actions/comments';
 import { formatDate } from '../utils/helpers';
 
 const styles = theme => ({
@@ -50,29 +54,32 @@ class Comment extends React.Component {
         <CardHeader
           avatar={
             <Avatar aria-label="Recipe" className={classes.avatar}>
-              {this.props.author ? this.props.author.charAt(0).toUpperCase() : ''}
+              {this.props.comment.author
+                ? this.props.comment.author.charAt(0).toUpperCase()
+                : ''
+              }
             </Avatar>
           }
-          title={this.props.author}
-          subheader={formatDate(this.props.timestamp)}
+          title={this.props.comment.author}
+          subheader={formatDate(this.props.comment.timestamp)}
         />
         <CardContent>
           <Typography component="p">
-            {this.props.body}
+            {this.props.comment.body}
           </Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
           <IconButton
             aria-label="Vote up"
-            onClick={() =>this.props.handleUpvoteComment(this.props.id)}>
+            onClick={() =>this.props.handleUpvoteComment(this.props.comment.id)}>
             <Icon>thumb_up</Icon>
           </IconButton>
           <IconButton
             aria-label="Vote down"
-            onClick={() => this.props.handleDownvoteComment(this.props.id)}>
+            onClick={() => this.props.handleDownvoteComment(this.props.comment.id)}>
             <Icon>thumb_down</Icon>
           </IconButton>
-          <span>{this.props.voteScore}</span>
+          <span>{this.props.comment.voteScore}</span>
           {
             this.props.showControls
               ? (
@@ -80,7 +87,9 @@ class Comment extends React.Component {
                     <IconButton aria-label="Edit">
                       <Icon>edit</Icon>
                     </IconButton>
-                    <IconButton aria-label="Delete">
+                    <IconButton
+                      aria-label="Delete"
+                      onClick={() => this.props.handleDeleteComment(this.props.comment)}>
                       <Icon>delete</Icon>
                     </IconButton>
                   </React.Fragment>
@@ -93,6 +102,10 @@ class Comment extends React.Component {
   }
 }
 
-const mapActionsToProps = { handleUpvoteComment, handleDownvoteComment };
+const mapActionsToProps = {
+  handleDeleteComment,
+  handleUpvoteComment,
+  handleDownvoteComment
+};
 
 export default connect(null, mapActionsToProps)(withStyles(styles)(Comment));

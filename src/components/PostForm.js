@@ -8,9 +8,9 @@ import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
-import { handleAddPost } from '../actions/posts';
+import { handleAddPost, handleEditPost } from '../actions/posts';
 import { generateId } from '../utils/helpers';
 
 const styles = theme => ({
@@ -41,35 +41,63 @@ const styles = theme => ({
   }
 });
 
-const initialState = Object.freeze({
-  author: '',
-  title: '',
-  category: '',
-  content: ''
-});
-
 class PostForm extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = initialState;
+    this.state = this._initialState(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  _initialState(props) {
+    if (props.post) return { post: props.post };
+
+    return {
+      post: {
+        id: generateId(),
+        author: '',
+        title: '',
+        category: '',
+        body: '',
+        timestamp: Date.now(),
+        voteScore: 0
+      }
+    };
+  }
+
   handleSubmit() {
-    this.props.handleAddPost({
-      id: generateId(),
-      author: this.state.author,
-      title: this.state.title,
-      category: this.state.category,
-      body: this.state.content,
-      timestamp: Date.now()
-    })
-    .then(() => this.setState(initialState));
+    this.handleSubmitAction()
+      .then(() => this.setState({ redirect: true }));
+  }
+
+  handleSubmitAction() {
+    return this.routeInfo === 'new'
+      ? this.props.handleAddPost(this.state.post)
+      : this.props.handleEditPost(this.state.post)
+  }
+
+  updatePost(data) {
+    this.setState(prevState => {
+      return { post: Object.assign({}, prevState.post, data) };
+    });
+  }
+
+  get routeInfo() {
+    return this.props.match.path.endsWith('new') ? 'new' : 'edit';
+  }
+
+  get redirectUrl() {
+    return this.routeInfo === 'new'
+      ? '/'
+      : `/posts/${this.props.match.params.postId}/comments`;
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={this.redirectUrl} />
+    }
+
     const { classes } = this.props;
 
     return (
@@ -78,12 +106,13 @@ class PostForm extends React.Component {
 
         <form className={classes.inputs} noValidate autoComplete="off">
           <TextField
+            disabled={this.routeInfo === 'edit'}
             id="post-author"
             label="Name"
             className={classes.textField}
             margin="normal"
-            value={this.state.author}
-            onChange={e => this.setState({ author: e.target.value })}
+            value={this.state.post.author}
+            onChange={e => this.updatePost({ author: e.target.value })}
           />
 
           <TextField
@@ -91,16 +120,18 @@ class PostForm extends React.Component {
             label="Title"
             className={classes.textField}
             margin="normal"
-            value={this.state.title}
-            onChange={e => this.setState({ title: e.target.value })}
+            value={this.state.post.title}
+            onChange={e => this.updatePost({ title: e.target.value })}
           />
 
-          <FormControl className={classes.textField}>
+          <FormControl
+            className={classes.textField}
+            disabled={this.routeInfo === 'edit'}>
             <InputLabel htmlFor="category">Category</InputLabel>
             <Select
               input={<Input name="category" id="category" />}
-              value={this.state.category}
-              onChange={e => this.setState({ category: e.target.value })}
+              value={this.state.post.category}
+              onChange={e => this.updatePost({ category: e.target.value })}
               >
               <MenuItem value="">
                 <em>None</em>
@@ -121,8 +152,8 @@ class PostForm extends React.Component {
             className={classes.textField}
             margin="normal"
             variant="outlined"
-            value={this.state.content}
-            onChange={e => this.setState({ content: e.target.value })}
+            value={this.state.post.body}
+            onChange={e => this.updatePost({ body: e.target.value })}
           />
           <div>
             <Button
@@ -130,7 +161,7 @@ class PostForm extends React.Component {
               className={classes.button}
               style={{ textDecoration: 'none' }}
               component={Link}
-              to="/">
+              to={this.redirectUrl}>
               Go back
             </Button>
             <Button
@@ -146,13 +177,14 @@ class PostForm extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   return {
+    post: state.posts.find(post => post.id === props.match.params.postId),
     categories: state.categories
   };
 };
 
-const mapDispatchToProps = { handleAddPost };
+const mapDispatchToProps = { handleAddPost, handleEditPost };
 
 export default connect(
   mapStateToProps, mapDispatchToProps

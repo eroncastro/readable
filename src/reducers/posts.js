@@ -2,6 +2,7 @@ import { RECEIVE_DATA } from '../actions/shared';
 import {
   ADD_POST,
   DELETE_POST,
+  EDIT_POST,
   DOWNVOTE_POST,
   UPVOTE_POST
 } from '../actions/posts';
@@ -12,6 +13,11 @@ export default function(state = [], action) {
       return [...state, action.post];
     case DELETE_POST:
       return state.filter(post => post.id !== action.postId);
+    case EDIT_POST:
+      return state.reduce((prev, cur) => {
+        const post = cur.id === action.post.id ? action.post : cur;
+        return [...prev, post];
+      }, []);
     case DOWNVOTE_POST:
       return state.reduce((prev, cur) => {
         const elem = cur.id === action.postId

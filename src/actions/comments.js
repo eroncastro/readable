@@ -5,11 +5,16 @@ import {
 } from './shared';
 
 export const ADD_COMMENT = 'ADD_COMMENT';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const DOWNVOTE_COMMENT = 'DOWNVOTE_COMMENT';
 export const UPVOTE_COMMENT = 'UPVOTE_COMMENT';
 
 function addComment(comment) {
   return { type: ADD_COMMENT, comment };
+}
+
+function deleteComment(comment) {
+  return { type: DELETE_COMMENT, comment };
 }
 
 function upvoteComment(commentId) {
@@ -39,6 +44,22 @@ export function handleAddComment(comment) {
     .catch(error => {
       console.log(error);
       alert('Failed to add new comment. Please, try again.');
+    })
+  };
+};
+
+export function handleDeleteComment(comment) {
+  return dispatch => {
+    dispatch(deleteComment(comment));
+
+    return fetch(`http://localhost:3001/comments/${comment.id}`, {
+      method: 'DELETE',
+      mode: 'cors'
+    })
+    .catch(error => {
+      console.log(error);
+      dispatch(addComment(comment));
+      alert('Failed to delete comment. Please, try again.');
     })
   };
 };

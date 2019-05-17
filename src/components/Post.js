@@ -96,7 +96,10 @@ class Post extends React.Component {
               this.props.showControls
                 ? (
                     <React.Fragment>
-                      <IconButton aria-label="Edit">
+                      <IconButton
+                        aria-label="Edit"
+                        component={Link}
+                        to={`/posts/${this.props.post.id}/edit`}>
                         <Icon>edit</Icon>
                       </IconButton>
                       <IconButton

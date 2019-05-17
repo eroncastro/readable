@@ -67,11 +67,11 @@ class CommentForm extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
-
     if (this.state.redirect) {
       return <Redirect to={`/posts/${this.props.match.params.postId}/comments`} />
     }
+
+    const { classes } = this.props;
 
     return (
       <div className={classes.container}>
