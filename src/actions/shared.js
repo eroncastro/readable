@@ -43,7 +43,7 @@ export function handleInitialData() {
         return dispatch(receiveData(categories, posts, comments));
       });
   };
-};
+}
 
 export function handleVote(path, option, action, fallbackAction) {
   return dispatch => {

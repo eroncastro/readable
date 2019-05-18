@@ -10,7 +10,7 @@ import Select from '@material-ui/core/Select';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 
-import { handleAddPost, handleEditPost } from '../actions/posts';
+import { handleAddPost, handleUpdatePost } from '../actions/posts';
 import { generateId } from '../utils/helpers';
 
 const styles = theme => ({
@@ -74,7 +74,7 @@ class PostForm extends React.Component {
   handleSubmitAction() {
     return this.routeInfo === 'new'
       ? this.props.handleAddPost(this.state.post)
-      : this.props.handleEditPost(this.state.post)
+      : this.props.handleUpdatePost(this.state.post)
   }
 
   updatePost(data) {
@@ -184,7 +184,7 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { handleAddPost, handleEditPost };
+const mapDispatchToProps = { handleAddPost, handleUpdatePost };
 
 export default connect(
   mapStateToProps, mapDispatchToProps

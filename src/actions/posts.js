@@ -3,6 +3,11 @@ import {
   DOWNVOTE_OPTION,
   UPVOTE_OPTION
 } from './shared';
+import {
+  createPost,
+  deletePost,
+  updatePost
+} from '../utils/api';
 
 export const ADD_POST = 'ADD_POST';
 export const DELETE_POST = 'DELETE_POST';
@@ -14,7 +19,7 @@ function addPost(post) {
   return { type: ADD_POST, post };
 }
 
-function deletePost(post) {
+function removePost(post) {
   return { type: DELETE_POST, post };
 }
 
@@ -32,57 +37,40 @@ function downvotePost(postId) {
 
 export function handleAddPost(post) {
   return dispatch => {
-    return fetch('http://localhost:3001/posts', {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(post)
-    })
-    .then(response => response.json())
-    .then(post => dispatch(addPost(post)))
-    .catch(error => {
-      console.log(error);
-      alert('Failed to add new post. Please, try again.');
-    })
+    return createPost(post)
+      .then(response => response.json())
+      .then(post => dispatch(addPost(post)))
+      .catch(error => {
+        console.log(error);
+        alert('Failed to add new post. Please, try again.');
+      });
   };
-};
+}
 
 export function handleDeletePost(post) {
   return dispatch => {
-    dispatch(deletePost(post.id));
+    dispatch(removePost(post.id));
 
-    return fetch(`http://localhost:3001/posts/${post.id}`, {
-      method: 'DELETE',
-      mode: 'cors'
-    })
-    .catch(error => {
-      console.log(error);
-      dispatch(addPost(post));
-      alert('Failed to delete post. Please, try again.');
-    })
+    return deletePost(post)
+      .catch(error => {
+        console.log(error);
+        dispatch(addPost(post));
+        alert('Failed to delete post. Please, try again.');
+      });
   };
-};
+}
 
-export function handleEditPost(post) {
+export function handleUpdatePost(post) {
   return dispatch => {
-    return fetch(`http://localhost:3001/posts/${post.id}`, {
-      method: 'PUT',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(post)
-    })
-    .then(response => response.json())
-    .then(post => dispatch(editPost(post)))
-    .catch(error => {
-      console.log(error);
-      alert('Failed to delete post. Please, try again.');
-    })
+    return updatePost(post)
+      .then(response => response.json())
+      .then(post => dispatch(editPost(post)))
+      .catch(error => {
+        console.log(error);
+        alert('Failed to delete post. Please, try again.');
+      });
   };
-};
+}
 
 function handleVotePost(postId, option, action, fallbackAction) {
   return handleVote(`posts/${postId}`, option, action, fallbackAction)
@@ -95,7 +83,7 @@ export function handleUpvotePost(postId) {
     upvotePost(postId),
     downvotePost(postId)
   );
-};
+}
 
 export function handleDownvotePost(postId) {
   return handleVotePost(
@@ -104,4 +92,4 @@ export function handleDownvotePost(postId) {
     downvotePost(postId),
     upvotePost(postId)
   );
-};
+}
