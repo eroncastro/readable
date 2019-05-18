@@ -1,4 +1,9 @@
 import {
+  createComment,
+  updateComment,
+  deleteComment
+} from '../utils/api';
+import {
   handleVote,
   DOWNVOTE_OPTION,
   UPVOTE_OPTION
@@ -13,7 +18,7 @@ function addComment(comment) {
   return { type: ADD_COMMENT, comment };
 }
 
-function deleteComment(comment) {
+function removeComment(comment) {
   return { type: DELETE_COMMENT, comment };
 }
 
@@ -31,38 +36,27 @@ function handleVoteComment(commentId, option, action, fallbackAction) {
 
 export function handleAddComment(comment) {
   return dispatch => {
-    return fetch('http://localhost:3001/comments', {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(comment)
-    })
-    .then(response => response.json())
-    .then(comment => dispatch(addComment(comment)))
-    .catch(error => {
-      console.log(error);
-      alert('Failed to add new comment. Please, try again.');
-    })
+    return createComment(comment)
+      .then(comment => dispatch(addComment(comment)))
+      .catch(error => {
+        console.log(error);
+        alert('Failed to add new comment. Please, try again.');
+      })
   };
-};
+}
 
 export function handleDeleteComment(comment) {
   return dispatch => {
-    dispatch(deleteComment(comment));
+    dispatch(removeComment(comment));
 
-    return fetch(`http://localhost:3001/comments/${comment.id}`, {
-      method: 'DELETE',
-      mode: 'cors'
-    })
-    .catch(error => {
-      console.log(error);
-      dispatch(addComment(comment));
-      alert('Failed to delete comment. Please, try again.');
-    })
+    return deleteComment(comment.id)
+      .catch(error => {
+        console.log(error);
+        dispatch(addComment(comment));
+        alert('Failed to delete comment. Please, try again.');
+      })
   };
-};
+}
 
 export function handleUpvoteComment(commentId) {
   return handleVoteComment(
@@ -71,7 +65,7 @@ export function handleUpvoteComment(commentId) {
     upvoteComment(commentId),
     downvoteComment(commentId)
   );
-};
+}
 
 export function handleDownvoteComment(commentId) {
   return handleVoteComment(
@@ -80,4 +74,4 @@ export function handleDownvoteComment(commentId) {
     downvoteComment(commentId),
     upvoteComment(commentId)
   );
-};
+}
