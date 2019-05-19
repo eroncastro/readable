@@ -56,7 +56,7 @@ class CommentForm extends React.Component {
 
   handleSubmit() {
     this.handleSubmitAction()
-      .then(() => this.setState({ redirect: true }));
+      .then(() => this.props.history.push(this.redirectUrl));
   }
 
   handleSubmitAction() {
@@ -87,18 +87,20 @@ class CommentForm extends React.Component {
 
   get redirectUrl() {
     const { category, postId } = this.props.match.params;
+
     return `/${category}/${postId}`;
   }
 
   _isValidRoute() {
+    if (!this.props.post) return false;
     if (this.routeInfo === 'new') return true;
 
     return this.props.comment !== undefined;
   }
 
   render() {
-    if (this.state.redirect) {
-      return <Redirect to={this.redirectUrl} />
+    if (!this._isValidRoute()) {
+      return <Redirect to='/404' />;
     }
 
     const { classes } = this.props;
@@ -153,6 +155,9 @@ class CommentForm extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
+    post: state.posts.find(post => {
+      return post.id === props.match.params.postId;
+    }),
     comment: state.comments.find(comment => {
       return comment.id === props.match.params.commentId;
     })

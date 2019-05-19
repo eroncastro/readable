@@ -58,7 +58,7 @@ class PostForm extends React.Component {
 
   handleSubmit() {
     this.handleSubmitAction()
-      .then(() => this.setState({ redirect: true }));
+      .then(() => this.props.history.push(this.redirectUrl));
   }
 
   handleSubmitAction() {
@@ -99,10 +99,6 @@ class PostForm extends React.Component {
   render() {
     if (!this._isValidRoute()) {
       return <Redirect to='/404' />;
-    }
-
-    if (this.state.redirect) {
-      return <Redirect to={this.redirectUrl} />;
     }
 
     const { classes } = this.props;
