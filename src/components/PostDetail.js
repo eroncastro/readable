@@ -22,14 +22,22 @@ const styles = theme => ({
   }
 });
 
-class PostsDetail extends React.Component {
+class PostDetail extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      redirect: false
+    };
+  }
+
   sort(a, b) {
     return b.timestamp - a.timestamp;
   }
 
   render() {
     if (!this.props.post) {
-      return <Redirect to="/" />;
+      return <Redirect to="/404" />;
     }
 
     const { classes } = this.props;
@@ -41,6 +49,7 @@ class PostsDetail extends React.Component {
           post={this.props.post}
           comments={this.props.comments.length}
           showControls={true}
+          onDelete={() => this.props.history.push('/')}
         />
 
         <h3>Comments</h3>
@@ -67,4 +76,4 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(PostsDetail));
+export default connect(mapStateToProps)(withStyles(styles)(PostDetail));

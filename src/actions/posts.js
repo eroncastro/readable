@@ -19,8 +19,8 @@ function addPost(post) {
   return { type: ADD_POST, post };
 }
 
-function removePost(post) {
-  return { type: DELETE_POST, post };
+function removePost(postId) {
+  return { type: DELETE_POST, postId };
 }
 
 function editPost(post) {
@@ -51,7 +51,7 @@ export function handleDeletePost(post) {
   return dispatch => {
     dispatch(removePost(post.id));
 
-    return deletePost(post)
+    return deletePost(post.id)
       .catch(error => {
         console.log(error);
         dispatch(addPost(post));

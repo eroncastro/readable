@@ -2,7 +2,7 @@ import React from 'react';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import { withStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Post from './Post';
@@ -49,12 +49,25 @@ class PostList extends React.Component {
     return a[this.state.orderBy] < b[this.state.orderBy] ? 1 : 0;
   }
 
+  _isValidRoute() {
+    if (this.props.match.path === '/') return true;
+
+    return Boolean(this.props.categories.find(category => {
+      return category.name === this.props.match.params.categoryId;
+    }));
+  }
+
   render() {
+    if (!this._isValidRoute()) {
+      return <Redirect to="/404" />;
+    }
+
     const { classes } = this.props;
 
     return (
       <main className={classes.content}>
         <SelectControls
+          categories={this.props.categories}
           selectedCategory={this.props.match.params.categoryId}
           onOrderChange={orderBy => this.setState({ orderBy })}
         />
@@ -77,13 +90,14 @@ class PostList extends React.Component {
   }
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   return {
-    posts: state.posts,
+    categories: state.categories,
     comments: state.comments.reduce((prev, cur) => {
       const inc = prev[cur.parentId] ? prev[cur.parentId] + 1 : 1;
       return {...prev, ...{ [cur.parentId]: inc } };
-    }, {})
+    }, {}),
+    posts: state.posts
   };
 };
 

@@ -12,7 +12,6 @@ To launch the project on your machine:
 
 ## What You're Getting
 ```bash
-├── CONTRIBUTING.md
 ├── README.md - This file.
 ├── package.json # npm package manager file.
 ├── public

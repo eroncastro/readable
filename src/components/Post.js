@@ -48,9 +48,19 @@ const styles = theme => ({
 });
 
 class Post extends React.Component {
-  handleClick(event, action) {
-    event.preventDefault();
-    action();
+  constructor(props) {
+    super(props);
+
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  handleDelete() {
+    this.props.handleDeletePost(this.props.post)
+
+    if (!this.props.onDelete) return;
+    if (typeof this.props.onDelete !== 'function') return;
+
+    this.props.onDelete();
   }
 
   render() {
@@ -60,7 +70,7 @@ class Post extends React.Component {
       <Card className={classes.card}>
         <CardActionArea
           component={Link}
-          to={`/posts/${this.props.post.id}/comments`}>
+          to={`/${this.props.post.category}/${this.props.post.id}`}>
           <CardHeader
             avatar={
               <Avatar aria-label="Recipe" className={classes.avatar}>
@@ -82,7 +92,7 @@ class Post extends React.Component {
           <CardActions className={classes.actions} disableActionSpacing>
             <IconButton
               aria-label="Vote up"
-              onClick={e => this.handleClick(e, () => this.props.handleUpvotePost(this.props.post.id))}>
+              onClick={() => this.props.handleUpvotePost(this.props.post.id)}>
               <Icon>thumb_up</Icon>
             </IconButton>
             <IconButton
@@ -107,7 +117,7 @@ class Post extends React.Component {
                       </IconButton>
                       <IconButton
                         aria-label="Delete"
-                        onClick={() => this.props.handleDeletePost(this.props.post)}>
+                        onClick={this.handleDelete}>
                         <Icon>delete</Icon>
                       </IconButton>
                     </React.Fragment>

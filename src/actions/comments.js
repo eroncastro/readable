@@ -19,8 +19,8 @@ function addComment(comment) {
   return { type: ADD_COMMENT, comment };
 }
 
-function removeComment(comment) {
-  return { type: DELETE_COMMENT, comment };
+function removeComment(commentId) {
+  return { type: DELETE_COMMENT, commentId };
 }
 
 function editComment(comment) {
@@ -52,7 +52,7 @@ export function handleAddComment(comment) {
 
 export function handleDeleteComment(comment) {
   return dispatch => {
-    dispatch(removeComment(comment));
+    dispatch(removeComment(comment.id));
 
     return deleteComment(comment.id)
       .catch(error => {

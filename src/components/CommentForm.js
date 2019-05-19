@@ -89,6 +89,12 @@ class CommentForm extends React.Component {
     return `/posts/${this.props.match.params.postId}/comments`;
   }
 
+  _isValidRoute() {
+    if (this.routeInfo === 'new') return true;
+
+    return this.props.comment !== undefined;
+  }
+
   render() {
     if (this.state.redirect) {
       return <Redirect to={this.redirectUrl} />

@@ -5,7 +5,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const styles = {
@@ -60,7 +59,7 @@ class SelectControls extends React.Component {
               this.props.categories.map((category, index) => (
                 <MenuItem
                   component={Link}
-                  to={`/posts/category/${category.name}`}
+                  to={`/${category.name}`}
                   value={category.name}
                   key={index}
                   style={{ textDecoration: 'none' }}>
@@ -90,10 +89,4 @@ class SelectControls extends React.Component {
   }
 };
 
-const mapStateToProps = state => {
-  return {
-    categories: state.categories
-  };
-};
-
-export default connect(mapStateToProps)(withStyles(styles)(SelectControls));
+export default withStyles(styles)(SelectControls);

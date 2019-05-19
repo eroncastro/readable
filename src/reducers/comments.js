@@ -12,7 +12,7 @@ export default function(state = [], action) {
     case ADD_COMMENT:
       return [...state, action.comment];
     case DELETE_COMMENT:
-      return state.filter(comment => comment.id !== action.comment.id);
+      return state.filter(comment => comment.id !== action.commentId);
     case UPDATE_COMMENT:
       return state.reduce((prev, cur) => {
         const comment = cur.id === action.comment.id ? action.comment: cur;
