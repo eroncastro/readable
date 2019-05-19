@@ -23,31 +23,8 @@ const styles = theme => ({
 });
 
 class PostsDetail extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      orderBy: 'timestamp'
-    };
-
-    this.posts = this.posts.bind(this);
-    this._sort = this._sort.bind(this);
-  }
-
-  posts() {
-    const { categoryId } = this.props.match.params;
-
-    const posts = categoryId
-      ? this.props.posts.filter(post => post.category === categoryId)
-      : this.props.posts;
-
-    return posts.sort(this._sort);
-  }
-
-  _sort(a, b) {
-    if (a[this.state.orderBy] > b[this.state.orderBy]) return -1;
-
-    return a[this.state.orderBy] < b[this.state.orderBy] ? 1 : 0;
+  sort(a, b) {
+    return b.timestamp - a.timestamp;
   }
 
   render() {
@@ -67,7 +44,7 @@ class PostsDetail extends React.Component {
         />
 
         <h3>Comments</h3>
-        {this.props.comments.map((comment, index) => {
+        {this.props.comments.sort(this.sort).map((comment, index) => {
           return <Comment comment={comment} key={index} showControls={true} />
         })}
 
