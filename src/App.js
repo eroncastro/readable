@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import CommentForm from './components/CommentForm';
@@ -33,6 +33,7 @@ class App extends React.Component {
           <Route path="/:category/:postId/:commentId/edit" exact component={CommentForm} />
           <Route path="/:category" exact component={PostList} />
           <Route path="/:category/:postId" exact component={PostDetail} />
+          <Redirect from='*' to='/404' />
         </Switch>
       </Router>
     );
