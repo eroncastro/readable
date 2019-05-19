@@ -23,7 +23,6 @@ To launch the project on your machine:
     ├── App.css # Styles for the app. Feel free to customize this as you desire.
     ├── App.js # This is the root of the app. Contains static HTML right now.
     |── App.test.js # Used for testing. Provided with Create React App.
-    ├── BooksAPI.js # A JavaScript API for the provided Udacity backend. Instructions for the methods are below.
     ├── actions # Redux actions generators.
     │   ├── comments.js
     │   ├── posts.js
