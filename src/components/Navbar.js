@@ -78,7 +78,7 @@ class Navbar extends React.Component {
                   <ClickAwayListener onClickAway={this.handleClose}>
                     <MenuList onClick={this.handleClose}>
                       <MenuItem component={Link} to="/">Home</MenuItem>
-                      <MenuItem component={Link} to="/posts/new">New Post</MenuItem>
+                      <MenuItem component={Link} to="/new">New Post</MenuItem>
                     </MenuList>
                   </ClickAwayListener>
                 </Paper>

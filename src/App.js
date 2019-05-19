@@ -25,14 +25,14 @@ class App extends React.Component {
         <Navbar title="Readable" />
 
         <Switch>
-          <Route path="/" exact component={PostList} />
           <Route path="/404" exact component={NotFound} />
-          <Route path="/:categoryId" exact component={PostList} />
+          <Route path="/" exact component={PostList} />
+          <Route path="/new" exact component={PostForm} />
+          <Route path="/:category/:postId/edit" exact component={PostForm} />
+          <Route path="/:category/:postId/new" exact component={CommentForm} />
+          <Route path="/:category/:postId/:commentId/edit" exact component={CommentForm} />
+          <Route path="/:category" exact component={PostList} />
           <Route path="/:category/:postId" exact component={PostDetail} />
-          <Route path="/posts/new" exact component={PostForm} />
-          <Route path="/posts/:postId/edit" exact component={PostForm} />
-          <Route path="/posts/:postId/comments/new" exact component={CommentForm} />
-          <Route path="/posts/:postId/comments/:commentId/edit" exact component={CommentForm} />
         </Switch>
       </Router>
     );

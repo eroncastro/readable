@@ -86,7 +86,8 @@ class CommentForm extends React.Component {
   }
 
   get redirectUrl() {
-    return `/posts/${this.props.match.params.postId}/comments`;
+    const { category, postId } = this.props.match.params;
+    return `/${category}/${postId}`;
   }
 
   _isValidRoute() {
@@ -134,7 +135,7 @@ class CommentForm extends React.Component {
               className={classes.button}
               style={{ textDecoration: 'none' }}
               component={Link}
-              to={`/posts/${this.props.match.params.postId}/comments`}>
+              to={this.redirectUrl}>
               Go back
             </Button>
             <Button

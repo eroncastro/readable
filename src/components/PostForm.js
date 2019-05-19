@@ -84,9 +84,10 @@ class PostForm extends React.Component {
   }
 
   get redirectUrl() {
-    return this.routeInfo === 'new'
-      ? '/'
-      : `/posts/${this.props.match.params.postId}/comments`;
+    if (this.routeInfo === 'new') return '/';
+
+    const { category, postId } = this.props.match.params;
+    return `/${category}/${postId}`;
   }
 
   _isValidRoute() {

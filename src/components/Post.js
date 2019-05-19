@@ -112,7 +112,7 @@ class Post extends React.Component {
                       <IconButton
                         aria-label="Edit"
                         component={Link}
-                        to={`/posts/${this.props.post.id}/edit`}>
+                        to={`/${this.props.post.category}/${this.props.post.id}/edit`}>
                         <Icon>edit</Icon>
                       </IconButton>
                       <IconButton

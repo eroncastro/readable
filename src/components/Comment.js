@@ -33,6 +33,13 @@ const styles = theme => ({
 });
 
 class Comment extends React.Component {
+  get editUrl() {
+    const { category } = this.props;
+    const { parentId, id } = this.props.comment;
+
+    return `/${category}/${parentId}/${id}/edit`;
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -74,7 +81,7 @@ class Comment extends React.Component {
                     <IconButton
                       aria-label="Edit"
                       component={Link}
-                      to={`/posts/${this.props.comment.parentId}/comments/${this.props.comment.id}/edit`}>
+                      to={this.editUrl}>
                       <Icon>edit</Icon>
                     </IconButton>
                     <IconButton

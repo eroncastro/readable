@@ -34,10 +34,10 @@ class PostList extends React.Component {
   }
 
   posts() {
-    const { categoryId } = this.props.match.params;
+    const { category } = this.props.match.params;
 
-    const posts = categoryId
-      ? this.props.posts.filter(post => post.category === categoryId)
+    const posts = category
+      ? this.props.posts.filter(post => post.category === category)
       : this.props.posts;
 
     return posts.sort(this._sort);
@@ -53,7 +53,7 @@ class PostList extends React.Component {
     if (this.props.match.path === '/') return true;
 
     return Boolean(this.props.categories.find(category => {
-      return category.name === this.props.match.params.categoryId;
+      return category.name === this.props.match.params.category;
     }));
   }
 
@@ -68,7 +68,7 @@ class PostList extends React.Component {
       <main className={classes.content}>
         <SelectControls
           categories={this.props.categories}
-          selectedCategory={this.props.match.params.categoryId}
+          selectedCategory={this.props.match.params.category}
           onOrderChange={orderBy => this.setState({ orderBy })}
         />
         {this.posts().map((post, key) => {
@@ -80,7 +80,7 @@ class PostList extends React.Component {
             />
           );
         })}
-        <Link to="/posts/new">
+        <Link to="/new">
           <Fab color="primary" aria-label="Add" className={classes.fab}>
             <AddIcon />
           </Fab>

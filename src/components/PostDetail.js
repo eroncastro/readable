@@ -39,7 +39,6 @@ class PostDetail extends React.Component {
     if (!this.props.post) {
       return <Redirect to="/404" />;
     }
-
     const { classes } = this.props;
 
     return (
@@ -54,10 +53,16 @@ class PostDetail extends React.Component {
 
         <h3>Comments</h3>
         {this.props.comments.sort(this.sort).map((comment, index) => {
-          return <Comment comment={comment} key={index} showControls={true} />
+          return (
+            <Comment
+              comment={comment}
+              key={index}
+              showControls={true}
+              category={this.props.post.category} />
+          );
         })}
 
-        <Link to={`/posts/${this.props.post.id}/comments/new`}>
+        <Link to={`/${this.props.post.category}/${this.props.post.id}/new`}>
           <Fab color="primary" aria-label="Add" className={classes.fab}>
             <AddIcon />
           </Fab>
