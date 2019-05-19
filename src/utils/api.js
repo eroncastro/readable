@@ -51,7 +51,7 @@ export function deleteComment(commentId) {
 }
 
 export function updateComment(comment) {
-  return fetch(`{BASE_URL}/comments/${comment}`, {
+  return fetch(`${BASE_URL}/comments/${comment.id}`, {
     method: 'PUT',
     mode: 'cors',
     headers: {

@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import Icon from '@material-ui/core/Icon';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import {
   handleDeleteComment,
@@ -23,22 +24,8 @@ const styles = theme => ({
     width: 500,
     margin: 10
   },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
   actions: {
     display: 'flex',
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
   },
   avatar: {
     backgroundColor: red[500],
@@ -84,7 +71,10 @@ class Comment extends React.Component {
             this.props.showControls
               ? (
                   <React.Fragment>
-                    <IconButton aria-label="Edit">
+                    <IconButton
+                      aria-label="Edit"
+                      component={Link}
+                      to={`/posts/${this.props.comment.parentId}/comments/${this.props.comment.id}/edit`}>
                       <Icon>edit</Icon>
                     </IconButton>
                     <IconButton

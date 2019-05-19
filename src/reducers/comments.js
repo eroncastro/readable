@@ -2,6 +2,7 @@ import { RECEIVE_DATA } from '../actions/shared';
 import {
   ADD_COMMENT,
   DELETE_COMMENT,
+  UPDATE_COMMENT,
   DOWNVOTE_COMMENT,
   UPVOTE_COMMENT
 } from '../actions/comments';
@@ -12,6 +13,11 @@ export default function(state = [], action) {
       return [...state, action.comment];
     case DELETE_COMMENT:
       return state.filter(comment => comment.id !== action.comment.id);
+    case UPDATE_COMMENT:
+      return state.reduce((prev, cur) => {
+        const comment = cur.id === action.comment.id ? action.comment: cur;
+        return [...prev, comment];
+      }, []);
     case DOWNVOTE_COMMENT:
       return state.reduce((prev, cur) => {
         const elem = cur.id === action.commentId
