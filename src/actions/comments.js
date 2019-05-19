@@ -11,6 +11,7 @@ import {
 
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
+export const UPDATE_COMMENT = 'UPDATE_COMMENT';
 export const DOWNVOTE_COMMENT = 'DOWNVOTE_COMMENT';
 export const UPVOTE_COMMENT = 'UPVOTE_COMMENT';
 
@@ -20,6 +21,10 @@ function addComment(comment) {
 
 function removeComment(comment) {
   return { type: DELETE_COMMENT, comment };
+}
+
+function editComment(comment) {
+  return { type: UPDATE_COMMENT, comment };
 }
 
 function upvoteComment(commentId) {
@@ -55,6 +60,18 @@ export function handleDeleteComment(comment) {
         dispatch(addComment(comment));
         alert('Failed to delete comment. Please, try again.');
       })
+  };
+}
+
+export function handleUpdateComment(comment) {
+  return dispatch => {
+    return updateComment(comment)
+      .then(response => response.json())
+      .then(comment => dispatch(editComment(comment)))
+      .catch(error => {
+        console.log(error);
+        alert('Failed to update comment. Please, try again.')
+      });
   };
 }
 

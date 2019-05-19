@@ -50,7 +50,16 @@ export function deleteComment(commentId) {
   });
 }
 
-export function updateComment() {}
+export function updateComment(comment) {
+  return fetch(`{BASE_URL}/comments/${comment}`, {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(comment)
+  });
+}
 
 // Shared section
 export function getCategories() {
