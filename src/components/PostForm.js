@@ -30,15 +30,17 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
     width: 500,
   },
-  dense: {
-    marginTop: 19,
-  },
-  menu: {
-    width: 200,
-  },
   button: {
     margin: theme.spacing.unit
   }
+});
+
+const blankPost = Object.freeze({
+  id: generateId(),
+  author: '',
+  title: '',
+  category: '',
+  body: ''
 });
 
 class PostForm extends React.Component {
@@ -51,19 +53,7 @@ class PostForm extends React.Component {
   }
 
   _initialState(props) {
-    if (props.post) return { post: props.post };
-
-    return {
-      post: {
-        id: generateId(),
-        author: '',
-        title: '',
-        category: '',
-        body: '',
-        timestamp: Date.now(),
-        voteScore: 0
-      }
-    };
+    return { post: props.post ? props.post : blankPost };
   }
 
   handleSubmit() {
@@ -72,15 +62,21 @@ class PostForm extends React.Component {
   }
 
   handleSubmitAction() {
+    const post = Object.assign({}, this.state.post, { timestamp: Date.now() });
+
     return this.routeInfo === 'new'
-      ? this.props.handleAddPost(this.state.post)
-      : this.props.handleUpdatePost(this.state.post)
+      ? this.props.handleAddPost(post)
+      : this.props.handleUpdatePost(post);
   }
 
   updatePost(data) {
     this.setState(prevState => {
       return { post: Object.assign({}, prevState.post, data) };
     });
+  }
+
+  get title() {
+    return `${this.routeInfo === 'new' ? 'New' : 'Edit'} Post`;
   }
 
   get routeInfo() {
@@ -102,7 +98,7 @@ class PostForm extends React.Component {
 
     return (
       <div className={classes.container}>
-        <h2>New Post</h2>
+        <h2>{this.title}</h2>
 
         <form className={classes.inputs} noValidate autoComplete="off">
           <TextField
