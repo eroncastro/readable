@@ -2,8 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Navbar from './components/Navbar';
 import CommentForm from './components/CommentForm';
+import Navbar from './components/Navbar';
+import NotFound from './components/NotFound';
 import PostDetail from './components/PostDetail';
 import PostForm from './components/PostForm';
 import PostList from './components/PostList';
@@ -25,12 +26,13 @@ class App extends React.Component {
 
         <Switch>
           <Route path="/" exact component={PostList} />
+          <Route path="/404" exact component={NotFound} />
+          <Route path="/:categoryId" exact component={PostList} />
+          <Route path="/:category/:postId" exact component={PostDetail} />
           <Route path="/posts/new" exact component={PostForm} />
           <Route path="/posts/:postId/edit" exact component={PostForm} />
-          <Route path="/posts/:postId/comments" exact component={PostDetail} />
           <Route path="/posts/:postId/comments/new" exact component={CommentForm} />
           <Route path="/posts/:postId/comments/:commentId/edit" exact component={CommentForm} />
-          <Route path="/posts/category/:categoryId" exact component={PostList} />
         </Switch>
       </Router>
     );
