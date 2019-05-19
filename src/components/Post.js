@@ -67,10 +67,13 @@ class Post extends React.Component {
                 {this.props.post.author ? this.props.post.author.charAt(0).toUpperCase() : ''}
               </Avatar>
             }
-            title={this.props.post.title}
+            title={this.props.post.author}
             subheader={formatDate(this.props.post.timestamp)}
           />
           <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              {this.props.post.title}
+            </Typography>
             <Typography component="p">
               {this.props.post.body}
             </Typography>
