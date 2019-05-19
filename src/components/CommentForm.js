@@ -47,9 +47,11 @@ class CommentForm extends React.Component {
   }
 
   _initialState(props) {
-    return {
-      comment: props.comment ? props.comment : blankComment(props.post.id)
-    };
+    const comment = props.comment
+      ? props.comment
+      : blankComment(props.match.params.postId);
+
+    return { comment };
   }
 
   handleSubmit() {
