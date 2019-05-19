@@ -21,7 +21,7 @@ const styles = theme => ({
   }
 });
 
-class PostsList extends React.Component {
+class PostList extends React.Component {
   constructor(props) {
     super(props);
 
@@ -87,4 +87,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(PostsList));
+export default connect(mapStateToProps)(withStyles(styles)(PostList));
