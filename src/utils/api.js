@@ -1,4 +1,5 @@
 const BASE_URL = 'http://localhost:3001';
+const AUTH_TOKEN = 'yay-a-token!';
 
 // Posts section
 export function createPost(post) {
@@ -7,6 +8,7 @@ export function createPost(post) {
     mode: 'cors',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: AUTH_TOKEN
     },
     body: JSON.stringify(post)
   });
@@ -15,7 +17,10 @@ export function createPost(post) {
 export function deletePost(postId) {
   return fetch(`http://localhost:3001/posts/${postId}`, {
     method: 'DELETE',
-    mode: 'cors'
+    mode: 'cors',
+    headers: {
+      Authorization: AUTH_TOKEN
+    }
   });
 }
 
@@ -25,6 +30,7 @@ export function updatePost(post) {
     mode: 'cors',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: AUTH_TOKEN
     },
     body: JSON.stringify(post)
   });
@@ -37,6 +43,7 @@ export function createComment(comment) {
     mode: 'cors',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: AUTH_TOKEN
     },
     body: JSON.stringify(comment)
   })
@@ -46,7 +53,10 @@ export function createComment(comment) {
 export function deleteComment(commentId) {
   return fetch(`${BASE_URL}/comments/${commentId}`, {
     method: 'DELETE',
-    mode: 'cors'
+    mode: 'cors',
+    headers: {
+      Authorization: AUTH_TOKEN
+    }
   });
 }
 
@@ -55,7 +65,8 @@ export function updateComment(comment) {
     method: 'PUT',
     mode: 'cors',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: AUTH_TOKEN
     },
     body: JSON.stringify(comment)
   });
@@ -63,29 +74,41 @@ export function updateComment(comment) {
 
 // Shared section
 export function getCategories() {
-  return fetch(`${BASE_URL}/categories`)
-    .then(response => response.json())
-    .then(({ categories }) => categories);
+  return fetch(`${BASE_URL}/categories`, {
+    headers: {
+      Authorization: AUTH_TOKEN
+    }
+  })
+  .then(response => response.json())
+  .then(({ categories }) => categories);
 }
 
 export function getPosts() {
-  return fetch(`${BASE_URL}/posts`)
-    .then(response => response.json());
+  return fetch(`${BASE_URL}/posts`, {
+    headers: {
+      Authorization: AUTH_TOKEN
+    }
+  })
+  .then(response => response.json());
+}
+
+function getPostComments(postId) {
+  return fetch(`${BASE_URL}/posts/${postId}/comments`, {
+    headers: {
+      Authorization: AUTH_TOKEN
+    }
+  })
+  .then(response => response.json());
 }
 
 export function getComments(posts) {
-  return Promise.all(
-    posts
-      .map(post => {
-        return fetch(`${BASE_URL}/posts/${post.id}/comments`)
-          .then(response => response.json());
-      })
-  )
-  .then(comments => {
-    return comments.reduce((prev, cur) => {
-      return [...prev, ...cur]
-    }, [])
-  });
+  return Promise
+    .all(posts.map(post => getPostComments(post.id)))
+    .then(comments => {
+      return comments.reduce((prev, cur) => {
+        return [...prev, ...cur]
+      }, [])
+    });
 }
 
 export function updateVote(path, option) {
@@ -94,6 +117,7 @@ export function updateVote(path, option) {
     mode: 'cors',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: AUTH_TOKEN
     },
     body: JSON.stringify(option)
   });
