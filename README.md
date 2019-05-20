@@ -54,4 +54,4 @@ To launch the project on your machine:
 
 ## Contributing
 
-This repository is maintained by Eron Castro, and was developed for the seconds assignment of Udacity React Nanodegree. Contributions will not likely be accepted.
+This repository is maintained by Eron Castro, and was developed for the second assignment of Udacity React Nanodegree. Contributions will not likely be accepted.
