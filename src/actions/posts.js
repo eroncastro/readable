@@ -8,6 +8,7 @@ import {
   deletePost,
   updatePost
 } from '../utils/api';
+import { removePostComments } from './comments';
 
 export const ADD_POST = 'ADD_POST';
 export const DELETE_POST = 'DELETE_POST';
@@ -52,6 +53,7 @@ export function handleDeletePost(post) {
     dispatch(removePost(post.id));
 
     return deletePost(post.id)
+      .then(() => dispatch(removePostComments(post.id)))
       .catch(error => {
         console.log(error);
         dispatch(addPost(post));
