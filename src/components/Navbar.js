@@ -12,6 +12,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const styles = {
   root: {
@@ -78,6 +79,18 @@ class Navbar extends React.Component {
                   <ClickAwayListener onClickAway={this.handleClose}>
                     <MenuList onClick={this.handleClose}>
                       <MenuItem component={Link} to="/">Home</MenuItem>
+                      {
+                        this.props.categories.map((category, index) => {
+                          return (
+                            <MenuItem
+                              component={Link}
+                              to={`/${category.path}`}
+                              key={index}>
+                              {category.name}
+                            </MenuItem>
+                          );
+                        })
+                      }
                       <MenuItem component={Link} to="/new">New Post</MenuItem>
                     </MenuList>
                   </ClickAwayListener>
@@ -95,4 +108,10 @@ class Navbar extends React.Component {
   }
 }
 
-export default withStyles(styles)(Navbar);
+const mapStateToProps = state => {
+  return {
+    categories: state.categories
+  };
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(Navbar));
