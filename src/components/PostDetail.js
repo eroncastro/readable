@@ -47,7 +47,7 @@ class PostDetail extends React.Component {
         <Post
           post={this.props.post}
           comments={this.props.comments.length}
-          showControls={true}
+          goBackRoute={`/${this.props.post.category}/${this.props.post.id}/edit`}
           onDelete={() => this.props.history.push('/')}
         />
 
@@ -57,7 +57,6 @@ class PostDetail extends React.Component {
             <Comment
               comment={comment}
               key={index}
-              showControls={true}
               category={this.props.post.category} />
           );
         })}

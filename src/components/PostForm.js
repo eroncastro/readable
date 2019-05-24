@@ -8,7 +8,7 @@ import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import { handleAddPost, handleUpdatePost } from '../actions/posts';
 import { generateId } from '../utils/helpers';
@@ -58,7 +58,7 @@ class PostForm extends React.Component {
 
   handleSubmit() {
     this.handleSubmitAction()
-      .then(() => this.props.history.push(this.redirectUrl));
+      .then(() => this.props.history.goBack());
   }
 
   handleSubmitAction() {
@@ -81,13 +81,6 @@ class PostForm extends React.Component {
 
   get routeInfo() {
     return this.props.match.path.endsWith('new') ? 'new' : 'edit';
-  }
-
-  get redirectUrl() {
-    if (this.routeInfo === 'new') return '/';
-
-    const { category, postId } = this.props.match.params;
-    return `/${category}/${postId}`;
   }
 
   _isValidRoute() {
@@ -163,8 +156,7 @@ class PostForm extends React.Component {
               variant="contained"
               className={classes.button}
               style={{ textDecoration: 'none' }}
-              component={Link}
-              to={this.redirectUrl}>
+              onClick={this.props.history.goBack}>
               Go back
             </Button>
             <Button

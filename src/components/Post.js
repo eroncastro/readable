@@ -105,25 +105,17 @@ class Post extends React.Component {
               <Icon>comment</Icon>
             </IconButton>
             <span>{this.props.comments ? this.props.comments : 0}</span>
-            {
-              this.props.showControls
-                ? (
-                    <React.Fragment>
-                      <IconButton
-                        aria-label="Edit"
-                        component={Link}
-                        to={`/${this.props.post.category}/${this.props.post.id}/edit`}>
-                        <Icon>edit</Icon>
-                      </IconButton>
-                      <IconButton
-                        aria-label="Delete"
-                        onClick={this.handleDelete}>
-                        <Icon>delete</Icon>
-                      </IconButton>
-                    </React.Fragment>
-                  )
-                : null
-            }
+            <IconButton
+              aria-label="Edit"
+              component={Link}
+              to={`/${this.props.post.category}/${this.props.post.id}/edit`}>
+              <Icon>edit</Icon>
+            </IconButton>
+            <IconButton
+              aria-label="Delete"
+              onClick={this.handleDelete}>
+              <Icon>delete</Icon>
+            </IconButton>
           </CardActions>
       </Card>
     );
